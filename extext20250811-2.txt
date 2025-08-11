@@ -1,0 +1,18 @@
+function shortcode_until($atts, $content = null) {
+    $atts = shortcode_atts([
+        'date' => '',
+        'expired' => ''
+    ], $atts);
+
+    $now = current_time('Ymd');
+    $deadline = $atts['date'];
+
+    if ($now <= $deadline) {
+        return do_shortcode($content);
+    } elseif (!empty($atts['expired'])) {
+        return esc_html($atts['expired']);
+    } else {
+        return ''; // 何も表示しない
+    }
+}
+add_shortcode('until', 'shortcode_until');
